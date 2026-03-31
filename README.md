@@ -1,5 +1,7 @@
 # Server Performance Stats
 
+Project URL: https://roadmap.sh/projects/server-stats
+
 A lightweight Bash script to quickly view key Linux server metrics from the terminal.
 
 ## Features

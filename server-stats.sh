@@ -18,7 +18,7 @@ usage=$((100 * (total_diff - idle_diff) / total_diff))
 echo "CPU Usage: $usage%"
 
 # show memory usage
-free | awk '/Mem:/ {printf "Memory usage: Used: %.2f%% | Free: %.2f%%\n", $3/$2*100, $4/$2*100}'
+free | awk '/Mem:/ {printf "Memory usage: Used: %.2f%% | Available: %.2f%%\n", $3/$2*100, $7/$2*100}'
 
 # show total disk usage
 df --total -B1 -x tmpfs -x devtmpfs | awk 'END {
@@ -26,3 +26,18 @@ df --total -B1 -x tmpfs -x devtmpfs | awk 'END {
   printf "Disk usage: Used: %.2f%% | Free: %.2f%%\n",
   (used/total)*100, (free/total)*100
 }'
+
+# show top 5 processes by CPU usage
+echo "===== Top 5 Processes by CPU ====="
+ps -eo pid,comm,%cpu,%mem --sort=-%cpu | head -n 6
+
+# show top 5 processes by MEM usage
+echo "===== Top 5 Processes by Memory ====="
+ps -eo pid,comm,%cpu,%mem --sort=-%mem | head -n 6
+
+# show system info
+echo "===== System Info ====="
+echo "OS: $(uname -s) $(uname -r)"
+echo "Uptime: $(uptime)"
+echo "Load Average: $(uptime | awk -F'load average:' '{print $2}')"
+echo "Logged in users: $(who | wc -l)"
